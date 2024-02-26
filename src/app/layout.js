@@ -20,10 +20,10 @@ const work_sans = Work_Sans({
 export default function RootLayout({ children }) {
     const pathname = usePathname();
     let header;
-    if (pathname !== "/login") {
+    if (pathname !== "/login" && pathname !== "/register") {
       header = <Header />;
     } else {
-      header = 
+      header =
       <header className="bg-white border-color-black py-4">
             <ul className="flex pl-6 pr-6 items-center justify-between">
                 <li className="flex lg:flex-1">

@@ -8,8 +8,6 @@ import TitlePage from '@/components/UI/TitlePage';
 import ProductFancyBox from "@/components/products/ProductFancyBox";
 import Loader from "@/components/UI/Loader";
 import Alert from "@/components/UI/Alert";
-import { getBase64 } from '../../../lib/base64';
-
 export default function Page() {
 
     const { id } = useParams();
@@ -21,13 +19,13 @@ export default function Page() {
     const [showFancyBox, setShowFancyBox] = useState(false);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+     useEffect(() => {
         const fetchProduct = async () => {
             setLoading(true);
             try {
                 let product = await getProduct(id);
-                if (product) {
-                    setProduct(product.data);
+                if (product.success) {
+                    setProduct(product.results);
                 }
             }
             catch (err) {
@@ -44,11 +42,15 @@ export default function Page() {
 
     useEffect(() => {
         const fetchPlaceholderImage = async () => {
-            const placeholder = await getBase64(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${product.thumbnail}`);
-            setPlaceholderImage(placeholder);
-        }
+            try {
+                const placeholder = product.thumbnail;
+                setPlaceholderImage(placeholder);
+            } catch (error) {
+                console.error('Error fetching placeholder image:', error.message);
+            }
+            };
         if (product) {
-            setSelectedImage(product.thumbnail);
+            setSelectedImage(product?.thumbnail);
             fetchPlaceholderImage();
         }
     }, [product]);
@@ -89,7 +91,7 @@ export default function Page() {
             }
             <BreadCrumb current_page={product?.name} />
             <div className="flex">
-                <div className="thumbnail lg:flex-1">
+                {placehodlerImage && selectedImage ? <div className="thumbnail lg:flex-1">
                     <div
                         onClick={() => setShowFancyBox(true)}
                         className="group/show w-4/5 h-[550px] overflow-hidden cursor-pointer">
@@ -97,7 +99,7 @@ export default function Page() {
                             blurDataURL={placehodlerImage}
                             className="object-cover h-full w-full group-hover/show:scale-105 transition ease-in-out delay-150 z-1"
                             alt={product.name}
-                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${selectedImage}`}
+                            src={selectedImage}
                             width={500}
                             height={500}
                         />
@@ -107,7 +109,7 @@ export default function Page() {
                             <Image
                                 className="cursor-pointer object-cover h-full w-full "
                                 alt={product.name}
-                                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${product.thumbnail}`}
+                                src={product.thumbnail}
                                 width={100}
                                 height={100}
                                 onMouseOver={() => {
@@ -124,7 +126,7 @@ export default function Page() {
                             <Image
                                 className="cursor-pointer object-cover h-full w-full"
                                 alt={product.name}
-                                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${product.packshot}`}
+                                src={product.packshot}
                                 width={100}
                                 height={100}
                                 onMouseOver={() => {
@@ -138,7 +140,7 @@ export default function Page() {
                             />
                         </div>
                     </div>
-                </div>
+                </div> : null}
                 <div className="content lg:flex-1 p-6">
                     <TitlePage title={product.name} />
                     <p className="mb-3 font-semibold text-lg">{product.price} €</p>

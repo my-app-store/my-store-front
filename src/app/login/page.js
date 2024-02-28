@@ -50,7 +50,7 @@ const Page = () => {
         <div className="container mx-auto">
             <div className="min-h-screen flex flex-col items-center">
                 <div className='my-16 text-center'>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Welcome back
                     </Typography>
                     <Typography variant="caption" gutterBottom>

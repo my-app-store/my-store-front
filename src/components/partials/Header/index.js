@@ -36,7 +36,7 @@ const Index = () => {
             <ul className="flex pl-6 pr-6 items-center justify-between">
                 <li className="flex lg:flex-1">
                     <Link href="/">
-                        <span className="font-semibold text-2xl font-bold">mystore.</span>
+                        <span className="text-2xl font-bold">mystore.</span>
                     </Link>
                 </li>
                 <li className='flex flex-row'>

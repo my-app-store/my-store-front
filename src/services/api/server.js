@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 
 // Check if running in the browser before setting the Authorization header
 if (typeof window !== 'undefined') {
-  const storeToken = localStorage.getItem("storeToken");
+  const storeToken = localStorage.getItem('storeToken');
   if (storeToken) {
     axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${storeToken}`;
   }

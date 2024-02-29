@@ -134,12 +134,12 @@ const Page = () => {
       data.admin = false;
 
       signUp(data)
-      .then((res) => {
+      .then(async (res) => {
         setAlert({type:res.success ? "success" : "error", message: res.message})
 
         if(res.success){
-                localStorage.setItem("storeToken", res.token)
-                getUser()
+                localStorage.setItem('storeToken', res.token);
+                await getUser()
                 .then((data) => {
                     localStorage.setItem("currentUser", JSON.stringify(data.user))
                     router.push("/shop");

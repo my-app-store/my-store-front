@@ -19,7 +19,6 @@ import { login, getUser } from "../../services/api/auth.api";
 import { useRouter } from 'next/navigation'
 
 
-
 const Page = () => {
     const router = useRouter();
     const [alert, setAlert] = React.useState(null);
@@ -51,14 +50,14 @@ const Page = () => {
 
     const onSubmit = (data) => {
         login(data)
-        .then((res) => {
+        .then(async (res) => {
             setAlert({type:"success", message: res.message})
-
+            console.log(res)
             if(res.success){
-                localStorage.setItem("storeToken", res.token)
-                getUser()
+                localStorage.setItem('storeToken', res.token);
+                await getUser()
                 .then((data) => {
-                    localStorage.setItem("currentUser", JSON.stringify(data.user))
+                    localStorage.setItem("currentUser", JSON.stringify(data?.user))
                     router.push("/shop");
                 })
             }

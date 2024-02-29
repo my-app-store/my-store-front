@@ -50,10 +50,8 @@ const Page = () => {
     })
 
     const onSubmit = (data) => {
-        console.log(JSON.stringify(data, null, 2))
         login(data)
         .then((res) => {
-            console.log(res);
             setAlert({type:res.success ? "success" : "error", message: res.message})
 
             if(res.success){

@@ -43,15 +43,17 @@ const Index = () => {
                     <NavMenu menu={menu} color="grey" />
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <div className='flex flex-row items-center'>
+                        <Link href="/profile#wishlist">
                         <IconButton aria-label="cart" className="ml-6 mr-2">
-                        <StyledBadge badgeContent={7} color="info">
-                            <FavoriteBorderIcon />
-                        </StyledBadge>
+                            <StyledBadge badgeContent={7} color="info">
+                                <FavoriteBorderIcon />
+                            </StyledBadge>
                         </IconButton>
+                        </Link>
                         <IconButton aria-label="cart" className="mx-2">
-                        <StyledBadge badgeContent={4} color="info">
-                            <ShoppingCartIcon />
-                        </StyledBadge>
+                            <StyledBadge badgeContent={4} color="info">
+                                <ShoppingCartIcon />
+                            </StyledBadge>
                         </IconButton>
                         <IconButton 
                         size="large"
@@ -72,7 +74,7 @@ const Index = () => {
                         >
                         <MenuItem onClick={handleClose}><Link href='/profile'>Profile</Link></MenuItem>
                         <MenuItem onClick={handleClose}><Link href='/login'>Login</Link></MenuItem>
-                        <MenuItem onClick={handleClose}>Register</MenuItem>
+                        <MenuItem onClick={handleClose}><Link href='/register'>Register</Link></MenuItem>
                         </Menu>
                     </div>
                 </li>

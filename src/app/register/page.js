@@ -131,13 +131,10 @@ const Page = () => {
   const onSubmit = async (data) => {
     setValidated(true);
     if(data.password === confPassword){
-      console.log(data)
       data.admin = false;
       data.phone = '+33' + data.phone.replace(/\s/g, '')
-      console.log(JSON.stringify(data, null, 2))
       signUp(data)
       .then((res) => {
-        console.log(res);
         setAlert({type:res.success ? "success" : "error", message: res.message})
 
         if(res.success){

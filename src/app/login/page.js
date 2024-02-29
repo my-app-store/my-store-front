@@ -11,12 +11,18 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined'
 import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined'
+import Alert from "@/components/UI/Alert";
 import * as Yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { login } from "../../services/api/auth.api";
+import { useRouter } from 'next/navigation'
+
 
 
 const Page = () => {
+    const router = useRouter();
+    const [alert, setAlert] = React.useState(null);
     const [showPassword, setShowPassword] = React.useState(false)
 
     const handleClickShowPassword = () => setShowPassword((show) => !show)
@@ -45,12 +51,26 @@ const Page = () => {
 
     const onSubmit = (data) => {
         console.log(JSON.stringify(data, null, 2))
+        login(data)
+        .then((res) => {
+            console.log(res);
+            setAlert({type:res.success ? "success" : "error", message: res.message})
+
+            if(res.success){
+                router.push("/shop");
+            }
+        })
     }
     return (
         <div className="container mx-auto">
+            {
+                alert && (
+                    <Alert message={alert.message} type={alert.type} />
+                )
+            }
             <div className="min-h-screen flex flex-col items-center">
                 <div className='my-16 text-center'>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Welcome back
                     </Typography>
                     <Typography variant="caption" gutterBottom>

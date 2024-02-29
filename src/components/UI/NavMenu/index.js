@@ -56,7 +56,7 @@ const Index = ({menu, color}) => {
             }}
           >
             <MenuItem onClick={handleClose}><Link href='/login'>Login</Link></MenuItem>
-            <MenuItem onClick={handleClose}>Register</MenuItem>
+            <MenuItem onClick={handleClose}><Link href='/register'>Register</Link></MenuItem>
           </Menu>
         </li>
       </ul>

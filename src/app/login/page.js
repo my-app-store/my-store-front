@@ -15,7 +15,7 @@ import Alert from "@/components/UI/Alert";
 import * as Yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { login } from "../../services/api/auth.api";
+import { login, getUser } from "../../services/api/auth.api";
 import { useRouter } from 'next/navigation'
 
 
@@ -52,10 +52,15 @@ const Page = () => {
     const onSubmit = (data) => {
         login(data)
         .then((res) => {
-            setAlert({type:res.success ? "success" : "error", message: res.message})
+            setAlert({type:"success", message: res.message})
 
             if(res.success){
-                router.push("/shop");
+                localStorage.setItem("storeToken", res.token)
+                getUser()
+                .then((data) => {
+                    localStorage.setItem("currentUser", JSON.stringify(data.user))
+                    router.push("/shop");
+                })
             }
         })
     }

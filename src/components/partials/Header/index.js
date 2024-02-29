@@ -11,6 +11,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { useState, useEffect } from 'react';
+
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -22,7 +24,9 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Index = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [isConnected, setIsConnected] = useState(false);
+
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -30,6 +34,19 @@ const Index = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+      const logout = () => {
+        localStorage.removeItem('storeToken');
+        localStorage.removeItem('currentUser');
+        handleClose();
+    }
+
+    useEffect(() => {
+        const item =  localStorage.getItem('storeToken') ? true : false
+        if(item){
+        setIsConnected(item)
+        }
+    }, [])
 
     return (
         <header className="bg-white border-b border-color-black py-3">
@@ -63,19 +80,35 @@ const Index = () => {
                         onClick={handleClick}>
                         <AccountCircleOutlinedIcon size="large" color="black" fontSize="16" />
                         </IconButton>
-                        <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}
-                        >
-                        <MenuItem onClick={handleClose}><Link href='/profile'>Profile</Link></MenuItem>
-                        <MenuItem onClick={handleClose}><Link href='/login'>Login</Link></MenuItem>
-                        <MenuItem onClick={handleClose}><Link href='/register'>Register</Link></MenuItem>
-                        </Menu>
+                        { isConnected && (
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                                }}
+                            >
+                                <MenuItem onClick={handleClose}><Link href='/profile'>Profile</Link></MenuItem>
+                                <MenuItem onClick={logout}><Link href='/login'>Logout</Link></MenuItem>
+                            </Menu>
+                            )}
+
+                            { !isConnected && (
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                                }}
+                            >
+                                <MenuItem onClick={handleClose}><Link href='/register'>Register</Link>
+                                </MenuItem><MenuItem onClick={handleClose}><Link href='/login'>Login</Link></MenuItem>
+                            </Menu>
+                            )}
                     </div>
                 </li>
             </ul>

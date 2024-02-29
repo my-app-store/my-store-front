@@ -1,11 +1,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import Checkbox from '@mui/material/Checkbox';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 
 const Index = ({ product }) => {
     return (
-        <div className="group/card max-w-sm bg-white rounded-lg">
+        <div className="group/card max-w-sm bg-white rounded-lg relative">
+            <div className="absolute top-2 right-2 z-40 bg-white p-0.5 rounded-full">
+                <Checkbox color="default" icon={<FavoriteBorder fontSize="small" />} checkedIcon={<Favorite fontSize="small" />} />
+            </div>
             <Link className="group/thumbnail thumbnail" href={`/shop/${product.id}`}>
-                <div className="overflow-hidden w-[300px] h-[300px] relative">
+                <div className="overflow-hidden w-fill h-[300px] relative">
                     <Image
                         className="group-hover/thumbnail:opacity-100 group-hover/thumbnail:scale-105 transition ease-in-out delay-150"
                         alt={product.name}
@@ -24,7 +30,7 @@ const Index = ({ product }) => {
                     />
                 </div>
             </Link>
-            <div className="py-5">
+            <div className="py-5 px-3">
                 <h2 className="text-md mb-3">{product.name}</h2>
                 <p className="font-semibold font-s">{product.price} €</p>
                 <div className="opacity-0 group-hover/card:opacity-100 transition ease-in-out delay-150">
